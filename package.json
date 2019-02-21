@@ -1,0 +1,29 @@
+{
+  "name": "lodown-rayman504",
+  "version": "1.0.0",
+  "description": "lowdown project",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "istanbul cover _mocha -- test/ -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RayMan504/lodown.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RayMan504/lodown/issues"
+  },
+  "homepage": "https://github.com/RayMan504/lodown#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "i": "^0.3.6",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.0.0",
+    "sinon": "^7.2.4"
+  }
+}
