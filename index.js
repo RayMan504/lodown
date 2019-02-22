@@ -173,3 +173,26 @@ function some(collection, test) {
     return result;
 }
 module.exports.some = some;
+
+
+
+
+/**
+ * extends: iterates over any number of input objects and returns the first object with key value pairs copied from other input
+ * objects.
+ * 
+ * @Param {Objects}: collections to loop through
+ */
+function extend(...objs) {
+    //iterate over array of objects
+    each(objs, (obj, key, objs) => {
+        //iterate over objects
+        each(obj, (value, key, obj) => {
+            //copy key value pairs of objects into FIRST object
+            objs[0][key] = value;
+        })    
+    })
+    //return first object 
+    return objs[0];
+}
+module.exports.extend = extend;
