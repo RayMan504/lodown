@@ -47,8 +47,7 @@ function map(collection, transform) {
 module.exports.map = map;
 
 /**
- * filter: iterates over a collection (Array or Object) and returns a boolean value
- * based on result of conditional statement with test function call. returns new array of truthy values if test
+ * filter: iterates over a collection (Array or Object) and returns new array of truthy values if test
  * function call on value, index, and collection is truthy. 
  * 
  * @Param {Array or Object}: collection to loop over
@@ -66,12 +65,30 @@ function filter(collection, test) {
             //push values to new array
             passed.push(value);
         }
-    })
+    });
     //return new array of truthy values
     return passed;
 }
 module.exports.filter = filter;
 
+/**
+ * reject: iterates over collection (Array or Object) and returns a new array of values that are falsey when
+ * called with test callback function.
+ * 
+ * @Param {Array or Object}: collection to loop through
+ * @Param {callback function}: function that will determined whether values in collection are truthy or falsey
+ */
+function reject(collection, test) {
+    //implement filter to return new array of falsey values 
+    return filter(collection, (value, index, collection) => {
+        //if values are falsey when test is called on value, index, and collection
+        if(!test(value, index, collection)) {
+            // add values to new array being returned
+            return value;
+        }
+    });
+}
+module.exports.reject = reject;
 
 /**
  * reduce: iterates over a collection (Array or Object) and returns an accumulation
@@ -190,8 +207,8 @@ function extend(...objs) {
         each(obj, (value, key, obj) => {
             //copy key value pairs of objects into FIRST object
             objs[0][key] = value;
-        })    
-    })
+        });    
+    });
     //return first object 
     return objs[0];
 }
