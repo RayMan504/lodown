@@ -68,8 +68,108 @@ function filter(collection, test) {
         }
     })
     //return new array of truthy values
-    return true;
+    return passed;
 }
 module.exports.filter = filter;
 
 
+/**
+ * reduce: iterates over a collection (Array or Object) and returns an accumulation
+ * of values from callback function call. the values being accumulated are stored in a seed variable.
+ * this seed will always be a starting point for accumulation. if no seed is given, seed will be assigned to first
+ * value in collection.
+ * 
+ * @Param {Array or Object}: collection to loop over
+ * @Param {Anonymous function}: function to accumlate seed value
+ * @Param {seed}: starting point value of accumulation
+ */
+function reduce(collection, func, seed) {
+  //???
+  var seedUndefined = arguments.length < 3;
+  console.log(seedUndefined, 'what is this?');
+  each(collection, function(elem, index, list){
+    //if undefined seed
+    if(seedUndefined) {
+      //???
+      seedUndefined = false;
+      //reassign seed to first element and continue looping
+      seed = elem;
+    } else {
+      //assign seed to function call an continue looping
+      seed = func(seed, elem, index, list);
+    }
+  });
+  //return seed
+  return seed;
+}
+
+module.exports.reduce = reduce;
+
+
+/**
+ * every: iterates a collection (Array or Object) and returns a boolean value based on truthiness or falsiness
+ * of values called by a test function. If all values in test call are truthy, boolean value of true return. 
+ * False boolean is return if at least one value in test call fails.
+ * 
+ * @Param {Array or Object}: collection to loop through
+ * @Param {callback function}: function that gets called on value, index, and collection to determine truthiness or falsiness
+ */
+function every(collection, test) {
+    //assign container to default boolean value
+    var result = true;
+    //iterate over collection with each. callback takes value, index, and collection
+    each(collection, (value, index, collection) => {
+        //if no test function is provided
+        if(test === undefined) {
+            //check if value is falsy
+            if(!value) {
+              //assign result to false if value is falsy
+               result = false;
+            } else {
+                //assign value to true if value is truthy
+                result = true;
+            }
+        //check if provided test call on value, index, and collection evaluates as false
+        } else if(!test(value, index, collection)) {
+            //assign result to false if calls are falsy values
+            result = false;
+        }
+    });
+    //return boolean result;
+    return result;
+}
+module.exports.every = every;
+/**
+ * some: iterates over collection (Array or Object) and returns boolean value based on the evaluation
+ * of a test function call on a value, index, and collection.
+ * if at least one value is truthy upon it being called by test function, true is returned. 
+ * if all values are falsy when called by test function, false is returned.
+ * 
+ * @Param {Array or Object}: collection to loop through
+ * @Param {callback function}: function that will get called on value, index, and collection to determine truthiness or falsiness
+ */
+function some(collection, test) {
+    //assign default boolean value to container
+    var result = false;
+    //use each to iterate collection. callback takes value, index, and collection
+    each(collection, (value, index, collection) => {
+        //if no test callback is given
+        if(test === undefined) {
+            //check if value is truthy
+            if(value) {
+                //assign result to true if value is truthy
+               result = true; 
+            } else {
+                //assign result to false if value is falsy
+                result = false;
+            }
+        // if test call on value, index, and collection has a truthy expression
+        } else if(test(value, index, collection)) {
+            //assign result to true
+            result = true;
+        }
+    });
+    //return boolean
+    return result;
+}
+module.exports.some = some;

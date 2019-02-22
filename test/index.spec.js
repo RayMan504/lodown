@@ -25,4 +25,32 @@ describe('lodown', function() {
             }
         });
     });
+    describe('map', () => {
+        it('should iterate an array, and return a new array of values modified by application of an action', () => {
+            var transform = sinon.spy();
+            lodown.map(customers, transform);
+            var map = lodown.map(customers, (value, index) =>  value.name + '!' );
+            var transformed = [];
+            expect(transform.callCount).to.equal(customers.length);
+            expect(Array.isArray(map)).to.be.true;
+            customers.forEach((customer, index) => {
+                expect(transform.calledWith(customer, index, customers)).to.be.true;
+                transformed.push(customer.name + '!');
+            });
+            expect(map).to.deep.equal(transformed);
+        });
+        it('should iterate an object and return a new array of values modified by a transform action', () => {
+            var transform = sinon.spy();
+            lodown.map(customers, transform);
+            var map = lodown.map(customers[0], (value, key) => value + 5);
+            var transformed = [];
+            // expect(transform.calledCount).to.equal(Object.keys(customers[0]).length);
+            expect(Array.isArray(map)).to.be.true;
+            for(var key in customers[0]) {
+                transformed.push(customers[0][key] + 5) 
+            }
+            expect(map).to.deep.equal(transformed);
+        })
+    });
+    // describe('filter');
 });
