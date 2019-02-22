@@ -47,6 +47,46 @@ function map(collection, transform) {
 module.exports.map = map;
 
 /**
+ * pluck: iterates over an array of objects and returns a new array of values from objects where input
+ * property exists
+ * 
+ * @Param {Array}: array to loop through and access objects
+ * @Param {property}: string referencing target property being searched for in objects
+ */
+function pluck(array, property) {
+    //implement map to return new array of values found at input property in objects
+    return map(array, (object, index, array) => {
+        //if object has input property as a key
+        if(object.hasOwnProperty(property)) {
+            //return values at that key in new array
+            return object[property];
+        }
+    });
+}
+module.exports.pluck = pluck;
+
+/**
+ * unique: iterates over an array and returns a new array without duplicate values.
+ * 
+ * @Param {Array}: array to loop over to compare for duplicate values
+ */
+function unique(array) {
+    //create new output array. will have no duplicate values
+    var dupeFree = [];
+    //implement each to loop over array
+    each(array, (value, index, array) => {
+        //check if value is in output array using indexOf
+        if(indexOf(array, value) === -1) {
+            //push value to output array if value was not found in output array intially
+            dupeFree.push(value);
+        }
+    })
+    //return duplicate free output array
+    return dupeFree;
+}
+module.exports.unique = unique;
+
+/**
  * filter: iterates over a collection (Array or Object) and returns new array of truthy values if test
  * function call on value, index, and collection is truthy. 
  * 
@@ -70,6 +110,48 @@ function filter(collection, test) {
     return passed;
 }
 module.exports.filter = filter;
+
+
+/**
+ * indexOf: iterates over an array and returns a number representing an index value at which input value was
+ * FIRST found. if no value is found in the array, -1 is returned.
+ * 
+ * @Param {Array}: array to loop over
+ * @Param {value}: value being searched for in array. if value is found, it's index position will be returned
+ */
+
+function indexOf(array, value) {
+    //create index container
+    var index = -1;
+    //create index list container
+    var indexStorage = [];
+    //iterate over array implementing each
+    each(array, (val, i, array) => {
+        //if value in array matches input value
+        if(val === value) {
+            //push the index to storage array
+            indexStorage.push(i);
+            //reassign output index to index position where target value was FIRST found
+            index = indexStorage[0];
+        }
+    });
+    //return output index
+    return index;
+}
+module.exports.indexOf = indexOf;
+
+/**
+ * contains: iterates over an array and returns a boolean value based on if a value
+ * was found in the array. if the value was found in the array, true is return. False otherwise
+ * 
+ * @Param {Array}: array to loop through and search for value
+ * @Param {target}: target value being searched for
+ * 
+ */
+function contains(array, target) {
+    return indexOf(array, target) > -1 ? true : false;
+}
+module.exports.contains = contains;
 
 /**
  * reject: iterates over collection (Array or Object) and returns a new array of values that are falsey when
