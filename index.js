@@ -11,18 +11,107 @@
  * collection
  */
 function each(collection, action) {
+    //if collection is an array
     if(Array.isArray(collection)) {
+        //loop array
         for(var i = 0; i < collection.length; i++) {
+            //apply callback function on value, index, and array collection
             action(collection[i], i, collection);
         }
+    //else
     } else {
+        //loop object
         for (var key in collection) {
+            //apply callback function on value, key, and object collection
             action(collection[key], key, collection);
         }
     }
 }
 module.exports.each = each;
 
+
+/**
+ * identity: takes a value and returns the input value unchanged
+ * 
+ * @param {value}: any datatype that will be returned unchanged
+ * 
+ */
+function identity(value) {
+    //return value unchanged
+    return value;
+}
+module.exports.identity = identity;
+
+function typeOf(value) {
+    if(Array.isArray(value)) {
+        return 'array';
+    }
+    if(value === null) {
+        return 'null';
+    }
+    return typeof value;
+}
+module.exports.typeOf = typeOf;
+
+/**
+ * first: takes an array and a number and returns a new array of first n elements of original array
+ * if the input array is not an array or the input number is less than zero, an empty array is returned.
+ * if input number is larger than input array length, the entire input array is returned.
+ * if the input number is not a type of number value, the first element in the array is returned.
+ * 
+ * @Param {array}: collection to copy a new array value of n elements from
+ * @Param {number}: represent the first n numbered elements to extract from input array
+ */
+function first(array, number) {
+    //if array is not an array or if number is negative
+    if(!Array.isArray(array) || number < 0) {
+        //return empty array
+        return [];
+    }
+    // if number is larger than array length
+    if(number > array.length) {
+        // return entire input array
+        return array
+    }
+    //if number is not a type of number
+    if(typeOf(number) !== 'number') {
+        //return first element
+        return array[0];
+    }
+    //use array method to return a new array of first n elements
+    return array.slice(0, number);
+}
+module.exports.first = first;
+
+/**
+ * last: takes an array and a number and returns a new array of last n elements of original array
+ * if the input array is not an array or the input number is less than zero, an empty array is returned.
+ * if input number is larger than input array length, the entire input array is returned.
+ * if the input number is not a type of number value, the last element in the array is returned.
+ * 
+ * @Param {array}: collection to copy a new array value of n elements from
+ * @Param {number}: represent the last n numbered elements to extract from input array
+ */
+function last(array, number) {
+    //if array is not an array or if number is negative
+    if(!Array.isArray(array) || number < 0) {
+        //return empty array
+        return [];
+    }
+    // if number is larger than array length
+    if(number > array.length) {
+        // return entire input array
+        return array;
+    }
+    //if number is not a type of number
+    if(typeOf(number) !== 'number') {
+        //return last element
+        return array[array.length -1];
+    }
+    //use array method to return a new array of last n elements
+    return array.slice(-number);
+}
+module.exports.last = last;
 /**
  * map: iterates over a collection (Array or Object) and applies a transform function which modifies
  * each value in the collection. returns a new array of modified values
@@ -149,6 +238,7 @@ module.exports.indexOf = indexOf;
  * 
  */
 function contains(array, target) {
+    //implememt indexOf to check if target is found in array. return true if found. false otherwise 
     return indexOf(array, target) > -1 ? true : false;
 }
 module.exports.contains = contains;
@@ -183,14 +273,13 @@ module.exports.reject = reject;
  * @Param {seed}: starting point value of accumulation
  */
 function reduce(collection, func, seed) {
-  //???
   var seedUndefined = arguments.length < 3;
   console.log(seedUndefined, 'what is this?');
+  //use each to iterate over collection
   each(collection, function(elem, index, list){
     //if undefined seed
     if(seedUndefined) {
-      //???
-      seedUndefined = false;
+      seedUndefined = false
       //reassign seed to first element and continue looping
       seed = elem;
     } else {
@@ -204,6 +293,20 @@ function reduce(collection, func, seed) {
 
 module.exports.reduce = reduce;
 
+/**
+ * partition: iterates over an array and calls a callback function on each element, index, and collection. 
+ * returns a new array of subarrays containing truthy and falsey values.
+ * 
+ * @Param {Array}: collection to loop over
+ * @Param {callback function}: anonymous function to be called on elements, index, and collection. expression evaluates to boolean 
+ * 
+ * 
+ */
+function partition(array, func) {
+    //wrap output array with two arrays. implement filter to return array of truthy values. implement reject to return array of falsey values
+    return [filter(array, func), reject(array, func)];
+}
+module.exports.partition = partition;
 
 /**
  * every: iterates a collection (Array or Object) and returns a boolean value based on truthiness or falsiness
