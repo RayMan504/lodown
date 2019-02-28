@@ -59,8 +59,8 @@ module.exports.typeOf = typeOf;
  * if input number is larger than input array length, the entire input array is returned.
  * if the input number is not a type of number value, the first element in the array is returned.
  * 
- * @Param {array}: collection to copy a new array value of n elements from
- * @Param {number}: represent the first n numbered elements to extract from input array
+ * @Param {array} array: collection to copy a new array value of n elements from
+ * @Param {number} number: number representing the first n numbered elements to extract from input array
  */
 function first(array, number) {
     //if array is not an array or if number is negative
@@ -89,8 +89,8 @@ module.exports.first = first;
  * if input number is larger than input array length, the entire input array is returned.
  * if the input number is not a type of number value, the last element in the array is returned.
  * 
- * @Param {array}: collection to copy a new array value of n elements from
- * @Param {number}: represent the last n numbered elements to extract from input array
+ * @Param {array} collection: collection to copy a new array value of n elements from
+ * @Param {number} number: number representing the last n numbered elements to extract from input array
  */
 function last(array, number) {
     //if array is not an array or if number is negative
@@ -116,8 +116,8 @@ module.exports.last = last;
  * map: iterates over a collection (Array or Object) and applies a transform function which modifies
  * each value in the collection. returns a new array of modified values
  * 
- * @Param {Array or Object}: collection to loop over
- * @Param {Anonymous Function}: function that transforms each value when called
+ * @Param {Array or Object} collection: collection to loop over
+ * @Param {Anonymous Function} transform: function that when called changes each value in the collection
  * 
  */
 function map(collection, transform) {
@@ -139,8 +139,8 @@ module.exports.map = map;
  * pluck: iterates over an array of objects and returns a new array of values from objects where input
  * property exists
  * 
- * @Param {Array}: array to loop through and access objects
- * @Param {property}: string referencing target property being searched for in objects
+ * @Param {Array} array: array to loop through and access objects
+ * @Param {property} property: string referencing target property being searched for in objects
  */
 function pluck(array, property) {
     //implement map to return new array of values found at input property in objects
@@ -157,7 +157,7 @@ module.exports.pluck = pluck;
 /**
  * unique: iterates over an array and returns a new array without duplicate values.
  * 
- * @Param {Array}: array to loop over to compare for duplicate values
+ * @Param {Array} array: array to loop over to compare for duplicate values. any duplicate values found in array will be added to a new array
  */
 function unique(array) {
     //create new output array. will have no duplicate values
@@ -176,11 +176,10 @@ function unique(array) {
 module.exports.unique = unique;
 
 /**
- * filter: iterates over a collection (Array or Object) and returns new array of truthy values if test
- * function call on value, index, and collection is truthy. 
+ * filter: iterates over a collection (Array or Object) and returns new array of values that pass a truth test. 
  * 
- * @Param {Array or Object}: collection to loop over
- * @Param {Anonymous function}: function to test values
+ * @Param {Array or Object} collection: collection to loop over
+ * @Param {Anonymous function} test: function that when called tests if values in collection are true. true values are added to new array
  * 
  */
 function filter(collection, test) {
@@ -205,8 +204,9 @@ module.exports.filter = filter;
  * indexOf: iterates over an array and returns a number representing an index value at which input value was
  * FIRST found. if no value is found in the array, -1 is returned.
  * 
- * @Param {Array}: array to loop over
- * @Param {value}: value being searched for in array. if value is found, it's index position will be returned
+ * @Param {Array} array: array to loop over
+ * @Param {value} value: value being searched for in array. if value is found, it's index position will be returned. -1 is returned
+ * if target value is never found in array
  */
 
 function indexOf(array, value) {
@@ -233,8 +233,8 @@ module.exports.indexOf = indexOf;
  * contains: iterates over an array and returns a boolean value based on if a value
  * was found in the array. if the value was found in the array, true is return. False otherwise
  * 
- * @Param {Array}: array to loop through and search for value
- * @Param {target}: target value being searched for
+ * @Param {Array} array: array to loop through and search for value
+ * @Param {target} target: target value being searched for. if values in array match target, the target exixts within inout array
  * 
  */
 function contains(array, target) {
@@ -244,11 +244,12 @@ function contains(array, target) {
 module.exports.contains = contains;
 
 /**
- * reject: iterates over collection (Array or Object) and returns a new array of values that are falsey when
+ * reject: iterates over collection (Array or Object) and returns a new array of values that fail when
  * called with test callback function.
  * 
  * @Param {Array or Object}: collection to loop through
- * @Param {callback function}: function that will determined whether values in collection are truthy or falsey
+ * @Param {callback function}: function that when called on values in collection tests if values in collection are false. false
+ * values are added to new array
  */
 function reject(collection, test) {
     //implement filter to return new array of falsey values 
@@ -268,9 +269,10 @@ module.exports.reject = reject;
  * this seed will always be a starting point for accumulation. if no seed is given, seed will be assigned to first
  * value in collection.
  * 
- * @Param {Array or Object}: collection to loop over
- * @Param {Anonymous function}: function to accumlate seed value
- * @Param {seed}: starting point value of accumulation
+ * @Param {Array or Object} colection: collection to loop over
+ * @Param {Anonymous function} func: function that when called on values in collection will add on to an already defined seed value
+ * @Param {seed} seed: starting point value of accumulation. will constantly change as anonymous function is called on values in collection. 
+ * can be any datatype. if seed is not initially given, seed will be assigned to first value in collection
  */
 function reduce(collection, func, seed) {
   var seedUndefined = arguments.length < 3;
@@ -295,10 +297,11 @@ module.exports.reduce = reduce;
 
 /**
  * partition: iterates over an array and calls a callback function on each element, index, and collection. 
- * returns a new array of subarrays containing truthy and falsey values.
+ * returns a new array of subarrays containing truthy and falsey values. first value in new array is array of values that pass a test
+ * second value in array is array of values that fail a test
  * 
- * @Param {Array}: collection to loop over
- * @Param {callback function}: anonymous function to be called on elements, index, and collection. expression evaluates to boolean 
+ * @Param {Array} array: collection to loop over
+ * @Param {callback function} func: anonymous function that when called on elements, index, and collection checks if a value passes or fails a test. expression evaluates to boolean 
  * 
  * 
  */
@@ -313,8 +316,8 @@ module.exports.partition = partition;
  * of values called by a test function. If all values in test call are truthy, boolean value of true return. 
  * False boolean is return if at least one value in test call fails.
  * 
- * @Param {Array or Object}: collection to loop through
- * @Param {callback function}: function that gets called on value, index, and collection to determine truthiness or falsiness
+ * @Param {Array or Object} collection: collection to loop through
+ * @Param {callback function} test: function that gets called on value, index, and collection to check if every value in the collection passes a test.
  */
 function every(collection, test) {
     //assign container to default boolean value
@@ -348,7 +351,8 @@ module.exports.every = every;
  * if all values are falsy when called by test function, false is returned.
  * 
  * @Param {Array or Object}: collection to loop through
- * @Param {callback function}: function that will get called on value, index, and collection to determine truthiness or falsiness
+ * @Param {callback function}: function that will get called on value, index, and collection to check if all values in 
+ * collection fail a test. 
  */
 function some(collection, test) {
     //assign default boolean value to container
@@ -383,7 +387,7 @@ module.exports.some = some;
  * extends: iterates over any number of input objects and returns the first object with key value pairs copied from other input
  * objects.
  * 
- * @Param {Objects}: collections to loop through
+ * @Param {Objects} ...objs: any number of collections to loop through. will copy key value pairs to first object from any number of objects in collection
  */
 function extend(...objs) {
     //iterate over array of objects
